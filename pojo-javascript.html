@@ -1,0 +1,142 @@
+<html>
+
+	<head>
+		<style>
+		.board {
+			display: flex;
+			width: 600px;
+			height: 600px;
+
+			/* This establishes the main-axis, thus defining the direction flex items are placed in the flex container. */
+			flex-direction: row;
+
+			/* wrap: multi-line / left to right in ltr; right to left in rtl */
+			/* By default, flex items will all try to fit onto one line. You can change that and allow the items to wrap as needed with this property. */
+			flex-wrap: wrap;
+
+			/* This defines the alignment along the main axis. */
+			justify-content: start;
+		}
+
+		.square {
+			height: 200px;
+			width: 200px;
+			/* Specify that <div> elements should have padding and border included in the element's total width and height: */
+			box-sizing: border-box;
+			border: 5px solid black;
+
+			font-size: 5rem;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.square:hover {
+			cursor: pointer;
+			background-color: #80cd92;
+		}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="render-target">
+		
+		</div>
+
+		<!--<div class="board">
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+		</div>-->
+
+		<script>
+			var gameState = {
+				PLAYER_ONE_SYMBOL: "X",
+				PLAYER_TWO_SYMBOL: "O",
+				currentTurn: "X",
+				board: [
+					"", "", "", "", "", "", "", "", ""
+				]
+			}
+
+			var resetState = function() {
+				gameState = {
+					PLAYER_ONE_SYMBOL: "X",
+					PLAYER_TWO_SYMBOL: "O",
+					currentTurn: "X",
+					board: [
+						"", "", "", "", "", "", "", "", ""
+					]
+				}
+			}
+
+			var checkForWinner = function () {
+				// checkForWinner is now ISOLATED from the dom!
+				// var squares = Array.prototype.slice.call(document.querySelectorAll('.square'))
+				var squares = gameState.board;
+				var symbols = squares.map(function(square) {
+					return square
+				})
+				var winningCombos = [
+				   [0, 1, 2],
+				   [3, 4, 5],
+				   [6, 7, 8],
+				   [0, 3, 6],
+				   [1, 4, 7],
+				   [2, 5, 8],
+				   [0, 4, 8],
+				   [2, 4, 6]
+				 ]; 
+				 return winningCombos.find(function(combo) {
+				 	return symbols[combo[0]] !== '' && symbols[combo[0]] == symbols[combo[1]] && symbols[combo[1]] == symbols[combo[2]];
+				 });
+			}
+
+			var render = function(state) {
+				
+				document.querySelector(".render-target").innerHTML = "<div class='board'>"	+
+						"<div class='square' data-square-id='0'>" + state.board[0] + "</div>"	+
+						"<div class='square' data-square-id='1'>" + state.board[1] + "</div>"	+
+						"<div class='square' data-square-id='2'>" + state.board[2] + "</div>"	+
+						"<div class='square' data-square-id='3'>" + state.board[3] + "</div>"	+
+						"<div class='square' data-square-id='4'>" + state.board[4] + "</div>"	+
+						"<div class='square' data-square-id='5'>" + state.board[5] + "</div>"	+
+						"<div class='square' data-square-id='6'>" + state.board[6] + "</div>"	+
+						"<div class='square' data-square-id='7'>" + state.board[7] + "</div>"	+
+						"<div class='square' data-square-id='8'>" + state.board[8] + "</div>"	+
+					"</div>";
+
+				var PLAYER_ONE_SYMBOL = 'X'
+				var PLAYER_TWO_SYMBOL = 'O'
+				var board = document.querySelector('.board')
+				board.addEventListener('click', function(e) {
+					var squareIndex = parseInt(e.target.dataset['squareId'], 10)
+					gameState.board[squareIndex] = gameState.currentTurn
+				 	gameState.currentTurn = gameState.currentTurn === gameState.PLAYER_ONE_SYMBOL ? gameState.PLAYER_TWO_SYMBOL : gameState.PLAYER_ONE_SYMBOL
+				 	render(gameState)
+
+				 	setTimeout(function() {
+				 		if ( checkForWinner() ) {				 			
+				 			alert("Game over!");
+				 			resetState();
+				 			render(gameState);
+				 		}
+				 	}, 0);
+				});
+
+			}
+
+			render(gameState);	// init render!
+
+			
+		</script>
+
+	</body>
+</html>

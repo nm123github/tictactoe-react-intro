@@ -1,0 +1,58 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.board {
+  display: flex;
+  width: 600px;
+  height: 600px;
+
+  /* This establishes the main-axis, thus defining the direction flex items are placed in the flex container. */
+  flex-direction: row;
+
+  /* wrap: multi-line / left to right in ltr; right to left in rtl */
+  /* By default, flex items will all try to fit onto one line. You can change that and allow the items to wrap as needed with this property. */
+  flex-wrap: wrap;
+
+  /* This defines the alignment along the main axis. */
+  justify-content: start;
+}
+
+.square {
+  height: 200px;
+  width: 200px;
+  /* Specify that <div> elements should have padding and border included in the element's total width and height: */
+  box-sizing: border-box;
+  border: 5px solid black;
+
+  font-size: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.square:hover {
+  cursor: pointer;
+  background-color: #80cd92;
+}
+    
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
